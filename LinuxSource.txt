@@ -55,8 +55,8 @@ function Linux:Notify(config)
     Linux.Instance("UIGradient", {
         Parent = Notification,
         Color = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 120, 255)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 0, 139))
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 80, 180)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 0, 100))
         }),
         Rotation = 45
     })
@@ -737,8 +737,11 @@ function Linux.Create(config)
             })
 
             local State = config.Default or false
+            local isToggling = false
 
             local function UpdateToggle()
+                if isToggling then return end
+                isToggling = true
                 local tween = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
                 if State then
                     if ToggleGradient then
@@ -761,12 +764,14 @@ function Linux.Create(config)
                     ToggleFill.Size = UDim2.new(0, 0, 1, 0)
                     TweenService:Create(Knob, tween, {Position = UDim2.new(0, 2, 0, 2)}):Play()
                 end
+                task.wait(0.2)
+                isToggling = false
             end
 
             UpdateToggle()
 
             Toggle.InputBegan:Connect(function(input)
-                if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+                if (input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1) and not isToggling then
                     State = not State
                     UpdateToggle()
                     spawn(function() Linux:SafeCallback(config.Callback, State) end)
@@ -1165,9 +1170,9 @@ function Linux.Create(config)
 
             local TextBox = Linux.Instance("TextBox", {
                 Parent = Input,
-                BackgroundColor3 = Color3.fromRGB(31, 31, 31),
+                BackgroundColor3 = Color3.fromRGB(25, 25, 25),
                 Size = UDim2.new(0.25, -10, 0, 24),
-                Position = UDim2.new(1, -120, 0.5, -12),
+                Position = UDim2.new(1, -90, 0.5, -12),
                 Font = Enum.Font.Gotham,
                 Text = config.Default or "",
                 PlaceholderText = config.Placeholder or "Text Here",
