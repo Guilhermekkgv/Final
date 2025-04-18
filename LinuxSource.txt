@@ -224,7 +224,7 @@ function Linux.Create(config)
         Position = UDim2.new(0, 5, 0, 0),
         Font = Enum.Font.SourceSansBold,
         Text = config.Name or "Linux UI",
-        TextColor3 = Color3.fromRGB(17, 17, 17),
+        TextColor3 = Color3.fromRGB(255, 255, 255),
         TextSize = 16,
         TextXAlignment = Enum.TextXAlignment.Left,
         AutomaticSize = Enum.AutomaticSize.X,
@@ -1108,20 +1108,20 @@ function Linux.Create(config)
 
             local draggingSlider = false
 
-            Slider.InputBegan:Connect(function(input)
+            SliderBar.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
                     draggingSlider = true
                     UpdateSlider(input.Position.X)
                 end
             end)
 
-            Slider.InputChanged:Connect(function(input)
+            SliderBar.InputChanged:Connect(function(input)
                 if (input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement) and draggingSlider then
                     UpdateSlider(input.Position.X)
                 end
             end)
 
-            Slider.InputEnded:Connect(function(input)
+            SliderBar.InputEnded:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
                     draggingSlider = false
                 end
